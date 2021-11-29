@@ -1,0 +1,35 @@
+Dump of assembler code for function phase_2:
+   0x0000555555555230 <+0>:     push   %rbp
+   0x0000555555555231 <+1>:     push   %rbx
+   0x0000555555555232 <+2>:     sub    $0x28,%rsp                           ; rsp = rsp - 40
+   0x0000555555555236 <+6>:     mov    %fs:0x28,%rax 
+   0x000055555555523f <+15>:    mov    %rax,0x18(%rsp)                      ; rax = *(rsp + 24)
+   0x0000555555555244 <+20>:    xor    %eax,%eax
+   0x0000555555555246 <+22>:    mov    %rsp,%rsi                            ; rsi = rsp
+   0x0000555555555249 <+25>:    callq  0x55555555585a <read_six_numbers>
+   0x000055555555524e <+30>:    cmpl   $0x0,(%rsp)                          ; if (*rsp != 0) explode_bomb() 
+   0x0000555555555252 <+34>:    jne    0x55555555525e <phase_2+46>
+   0x0000555555555254 <+36>:    mov    $0x1,%ebx                            ; ebx = 1
+   0x0000555555555259 <+41>:    mov    %rsp,%rbp                            ; rbp = rsp
+   0x000055555555525c <+44>:    jmp    0x55555555526f <phase_2+63>          ; goto <phase_2+63> 
+   0x000055555555525e <+46>:    callq  0x5555555557ec <explode_bomb>
+   0x0000555555555263 <+51>:    jmp    0x555555555254 <phase_2+36>
+   0x0000555555555265 <+53>:    add    $0x1,%rbx                            ; rbx += 1
+   0x0000555555555269 <+57>:    cmp    $0x6,%rbx                            ; if (rbx == 6) goto <phase_2+85> 
+   0x000055555555526d <+61>:    je     0x555555555285 <phase_2+85>
+   0x000055555555526f <+63>:    mov    %ebx,%eax                            ; eax = ebx
+   0x0000555555555271 <+65>:    imul   %ebx,%eax                            ; eax *= ebx
+   0x0000555555555274 <+68>:    add    -0x4(%rbp,%rbx,4),%eax               ; eax += rbp + 4*rbx - 4
+   0x0000555555555278 <+72>:    cmp    %eax,0x0(%rbp,%rbx,4)                ; if (eax == rbp + 4*rbx) goto <phase_2+53>
+   0x000055555555527c <+76>:    je     0x555555555265 <phase_2+53>
+   0x000055555555527e <+78>:    callq  0x5555555557ec <explode_bomb>
+   0x0000555555555283 <+83>:    jmp    0x555555555265 <phase_2+53>
+   0x0000555555555285 <+85>:    mov    0x18(%rsp),%rax                      ; rax = *(rsp + 24)
+   0x000055555555528a <+90>:    xor    %fs:0x28,%rax
+   0x0000555555555293 <+99>:    jne    0x55555555529c <phase_2+108>
+   0x0000555555555295 <+101>:   add    $0x28,%rsp                           ; rsp += 40
+   0x0000555555555299 <+105>:   pop    %rbx
+   0x000055555555529a <+106>:   pop    %rbp
+   0x000055555555529b <+107>:   retq   
+   0x000055555555529c <+108>:   callq  0x555555554e50 <__stack_chk_fail@plt>
+End of assembler dump.

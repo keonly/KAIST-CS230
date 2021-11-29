@@ -1,0 +1,6 @@
+When a problem comes along, you must zip it!
+0 1 5 14 30 55
+1 -729
+622170 2
+123445
+2 3 1 5 4 6
