@@ -6,23 +6,27 @@
 /* Routines used by floation point test code */
 
 /* Convert from bit level representation to floating point number */
-float u2f(unsigned u) {
-  union {
-    unsigned u;
-    float f;
-  } a;
-  a.u = u;
-  return a.f;
+float
+u2f (unsigned u)
+{
+    union {
+        unsigned u;
+        float f;
+    } a;
+    a.u = u;
+    return a.f;
 }
 
 /* Convert from floating point number to bit-level representation */
-unsigned f2u(float f) {
-  union {
-    unsigned u;
-    float f;
-  } a;
-  a.f = f;
-  return a.u;
+unsigned
+f2u (float f)
+{
+    union {
+        unsigned u;
+        float f;
+    } a;
+    a.f = f;
+    return a.u;
 }
 /* Copyright (C) 1991-2018 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -60,74 +64,103 @@ unsigned f2u(float f) {
    - 285 hentaigana
    - 3 additional Zanabazar Square characters */
 /* We do not support C11 <threads.h>.  */
-int test_allEvenBits(int x) {
-  int i;
-  for (i = 0; i < 32; i += 2)
-    if ((x & (1 << i)) == 0)
-      return 0;
-  return 1;
+int
+test_allEvenBits (int x)
+{
+    int i;
+    for (i = 0; i < 32; i += 2)
+        if ((x & (1 << i)) == 0)
+            return 0;
+    return 1;
 }
-int test_bitOr(int x, int y) {
-  return x | y;
+int
+test_bitOr (int x, int y)
+{
+    return x | y;
 }
-int test_conditional(int x, int y, int z) {
-  return x ? y : z;
+int
+test_conditional (int x, int y, int z)
+{
+    return x ? y : z;
 }
-int test_dividePower2(int x, int n) {
-  int p2n = 1 << n;
-  return x / p2n;
+int
+test_dividePower2 (int x, int n)
+{
+    int p2n = 1 << n;
+    return x / p2n;
 }
-int test_floatIsEqual(unsigned uf, unsigned ug) {
-  float f = u2f(uf);
-  float g = u2f(ug);
-  return f == g;
+int
+test_floatIsEqual (unsigned uf, unsigned ug)
+{
+    float f = u2f (uf);
+    float g = u2f (ug);
+    return f == g;
 }
-unsigned test_floatUnsigned2Float(unsigned u) {
-  float f = (float)u;
-  return f2u(f);
+unsigned
+test_floatUnsigned2Float (unsigned u)
+{
+    float f = (float) u;
+    return f2u (f);
 }
-int test_increment(int x) {
-  if (x == 2147483647)
-    return -2147483648;
-  return x + 1;
+int
+test_increment (int x)
+{
+    if (x == 2147483647)
+        return -2147483648;
+    return x + 1;
 }
-int test_isAsciiDigit(int x) {
-  return (0x30 <= x) && (x <= 0x39);
+int
+test_isAsciiDigit (int x)
+{
+    return (0x30 <= x) && (x <= 0x39);
 }
-int test_isPositive(int x) {
-  return x > 0;
+int
+test_isPositive (int x)
+{
+    return x > 0;
 }
-unsigned test_isUmax(unsigned x) {
-  return x == 0xFFFFFFFF;
+unsigned
+test_isUmax (unsigned x)
+{
+    return x == 0xFFFFFFFF;
 }
-int test_logicalNeg(int x) {
-  return !x;
+int
+test_logicalNeg (int x)
+{
+    return !x;
 }
-int test_replaceByte(int x, int n, int c) {
-  switch (n) {
-  case 0:
-    x = (x & 0xFFFFFF00) | c;
-    break;
-  case 1:
-    x = (x & 0xFFFF00FF) | (c << 8);
-    break;
-  case 2:
-    x = (x & 0xFF00FFFF) | (c << 16);
-    break;
-  default:
-    x = (x & 0x00FFFFFF) | (c << 24);
-    break;
-  }
-  return x;
+int
+test_replaceByte (int x, int n, int c)
+{
+    switch (n)
+    {
+    case 0:
+        x = (x & 0xFFFFFF00) | c;
+        break;
+    case 1:
+        x = (x & 0xFFFF00FF) | (c << 8);
+        break;
+    case 2:
+        x = (x & 0xFF00FFFF) | (c << 16);
+        break;
+    default:
+        x = (x & 0x00FFFFFF) | (c << 24);
+        break;
+    }
+    return x;
 }
-unsigned test_unsignedSatAdd(unsigned x, unsigned y) {
-  long long xy = (long long)x + (long long)y;
-  return xy > 0xFFFFFFFFu ? 0xFFFFFFFFu : xy;
+unsigned
+test_unsignedSatAdd (unsigned x, unsigned y)
+{
+    long long xy = (long long) x + (long long) y;
+    return xy > 0xFFFFFFFFu ? 0xFFFFFFFFu : xy;
 }
-int test_upperBits(int x) {
-  int result = 0;
-  int i;
-  for (i = 0; i < x; i++)
-    result |= (1 << (31 - i));
-  return result;
+int
+test_upperBits (int x)
+{
+    int result = 0;
+    int i;
+    for (i = 0; i < x; i++)
+        result |= (1 << (31 - i));
+    return result;
 }

@@ -9,15 +9,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int main(int argc, char **argv) {
-  int i, secs;
+int
+main (int argc, char **argv)
+{
+    int i, secs;
 
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %s <n>\n", argv[0]);
-    exit(0);
-  }
-  secs = atoi(argv[1]);
-  for (i = 0; i < secs; i++)
-    sleep(1);
-  exit(0);
+    if (argc != 2)
+    {
+        fprintf (stderr, "Usage: %s <n>\n", argv[0]);
+        exit (0);
+    }
+    secs = atoi (argv[1]);
+    for (i = 0; i < secs; i++)
+        sleep (1);
+    exit (0);
 }

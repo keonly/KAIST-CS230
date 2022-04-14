@@ -1,8 +1,14 @@
+/****************************************************************************
+ *                                                                          *
+ *   bits.c                                                                 *
+ *   Implementation of CS:APP Data Lab                                      *
+ *                                                                          *
+ *   CS230: System Programming                                              *
+ *   20200434 Lee, Giyeon                                                   *
+ *                                                                          *
+ ****************************************************************************/
+
 /*
- * CS:APP Data Lab
- *
- * <Lee, Giyeon / s20200434>
- *
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
  *
@@ -181,13 +187,16 @@ NOTES:
  *   Max ops: 12
  *   Rating: 2
  */
-int allEvenBits(int x) {
-  x &= (x >> 16);
-  x &= (x >> 8);
-  x &= (x >> 4);
-  x &= (x >> 2);
-  return x & 1;
+int
+allEvenBits (int x)
+{
+    x &= (x >> 16);
+    x &= (x >> 8);
+    x &= (x >> 4);
+    x &= (x >> 2);
+    return x & 1;
 }
+
 /*
  * bitOr - x|y using only ~ and &
  *   Example: bitOr(6, 5) = 7
@@ -195,9 +204,12 @@ int allEvenBits(int x) {
  *   Max ops: 8
  *   Rating: 1
  */
-int bitOr(int x, int y) {
-  return ~((~x) & (~y));
+int
+bitOr (int x, int y)
+{
+    return ~((~x) & (~y));
 }
+
 /*
  * conditional - same as x ? y : z
  *   Example: conditional(2,4,5) = 4
@@ -205,10 +217,13 @@ int bitOr(int x, int y) {
  *   Max ops: 16
  *   Rating: 3
  */
-int conditional(int x, int y, int z) {
-  x = (!!x << 31) >> 31;
-  return (x & y) | (~x & z);
+int
+conditional (int x, int y, int z)
+{
+    x = (!!x << 31) >> 31;
+    return (x & y) | (~x & z);
 }
+
 /*
  * dividePower2 - Compute x/(2^n), for 0 <= n <= 30
  *  Round toward zero
@@ -217,9 +232,12 @@ int conditional(int x, int y, int z) {
  *   Max ops: 15
  *   Rating: 2
  */
-int dividePower2(int x, int n) {
-  return (x + ((x >> 31) & (~0 + (1 << n)))) >> n;
+int
+dividePower2 (int x, int n)
+{
+    return (x + ((x >> 31) & (~0 + (1 << n)))) >> n;
 }
+
 /*
  * floatIsEqual - Compute f == g for floating point arguments f and g.
  *   Both the arguments are passed as unsigned int's, but
@@ -231,19 +249,22 @@ int dividePower2(int x, int n) {
  *   Max ops: 25
  *   Rating: 2
  */
-int floatIsEqual(unsigned uf, unsigned ug) {
-  int expF = uf & 0x7F800000;
-  int expG = ug & 0x7F800000;
-  int fracF = uf & 0x007FFFFF;
-  int fracG = ug & 0x007FFFFF;
-  if (uf == 0x80000000)
-    uf = 0;
-  if (ug == 0x80000000)
-    ug = 0;
-  if (((expF == 0x7F800000) && fracF) || ((expG == 0x7F800000) && fracG))
-    return 0;
-  return (uf == ug);
+int
+floatIsEqual (unsigned uf, unsigned ug)
+{
+    int expF  = uf & 0x7F800000;
+    int expG  = ug & 0x7F800000;
+    int fracF = uf & 0x007FFFFF;
+    int fracG = ug & 0x007FFFFF;
+    if (uf == 0x80000000)
+        uf = 0;
+    if (ug == 0x80000000)
+        ug = 0;
+    if (((expF == 0x7F800000) && fracF) || ((expG == 0x7F800000) && fracG))
+        return 0;
+    return (uf == ug);
 }
+
 /*
  * floatUnsigned2Float - Return bit-level equivalent of expression (float) u
  *   Result is returned as unsigned int, but
@@ -253,37 +274,45 @@ int floatIsEqual(unsigned uf, unsigned ug) {
  *   Max ops: 30
  *   Rating: 4
  */
-unsigned floatUnsigned2Float(unsigned u) {
-  unsigned len, dlen, i, exponent, mantissa, result, round;
-  i = 0;
-  len = 31;
-  if (!u)
-    return u;
-  while (!(u >> len)) {
-    len--;
-  }
-  exponent = (127 + len) << 23;
-  if (len <= 23) {
-    mantissa = ((u & ((1 << len) - 1)) << (23 - len));
-    result = exponent | mantissa;
-    return result;
-  }
-  mantissa = (u >> (len - 23)) & (0x007fffff);
-  result = exponent | mantissa;
-  dlen = len - 24;
-  round = (u >> dlen) & 3;
-  if (round == 1 && dlen) {
-    while (i < dlen) {
-      if ((u >> i) & 1)
+unsigned
+floatUnsigned2Float (unsigned u)
+{
+    unsigned len, dlen, i, exponent, mantissa, result, round;
+    i   = 0;
+    len = 31;
+    if (!u)
+        return u;
+    while (!(u >> len))
+    {
+        len--;
+    }
+    exponent = (127 + len) << 23;
+    if (len <= 23)
+    {
+        mantissa = ((u & ((1 << len) - 1)) << (23 - len));
+        result   = exponent | mantissa;
+        return result;
+    }
+    mantissa = (u >> (len - 23)) & (0x007fffff);
+    result   = exponent | mantissa;
+    dlen     = len - 24;
+    round    = (u >> dlen) & 3;
+    if (round == 1 && dlen)
+    {
+        while (i < dlen)
+        {
+            if ((u >> i) & 1)
+                return result + 1;
+            i++;
+        }
+        return result;
+    } else if (round == 3)
+    {
         return result + 1;
-      i++;
     }
     return result;
-  } else if (round == 3) {
-    return result + 1;
-  }
-  return result;
 }
+
 /*
  * increment - Compute x+1 without using + and ~
  *   and wrap around to -2147483648 when overflow occurs
@@ -291,16 +320,19 @@ unsigned floatUnsigned2Float(unsigned u) {
  *   Max ops: 30
  *   Rating: 4
  */
-int increment(int x) {
-  int y = x;
-  y = (((y << 1) | 0x01) & y);
-  y = (((y << 2) | 0x03) & y);
-  y = (((y << 4) | 0x0f) & y);
-  y = (((y << 8) | 0xff) & y);
-  y = (((y << 16) | ((0xff << 8) | 0xff)) & y);
-  y = ((y << 1) | 0x01);
-  return (x ^ y);
+int
+increment (int x)
+{
+    int y = x;
+    y     = (((y << 1) | 0x01) & y);
+    y     = (((y << 2) | 0x03) & y);
+    y     = (((y << 4) | 0x0f) & y);
+    y     = (((y << 8) | 0xff) & y);
+    y     = (((y << 16) | ((0xff << 8) | 0xff)) & y);
+    y     = ((y << 1) | 0x01);
+    return (x ^ y);
 }
+
 /*
  * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters
  * '0' to '9') Example: isAsciiDigit(0x35) = 1. isAsciiDigit(0x3a) = 0.
@@ -309,9 +341,12 @@ int increment(int x) {
  *   Max ops: 15
  *   Rating: 3
  */
-int isAsciiDigit(int x) {
-  return (!((x + (~0x30 + 1)) >> 31)) & (x + (~0x3a + 1)) >> 31;
+int
+isAsciiDigit (int x)
+{
+    return (!((x + (~0x30 + 1)) >> 31)) & (x + (~0x3a + 1)) >> 31;
 }
+
 /*
  * isPositive - return 1 if x > 0, return 0 otherwise
  *   Example: isPositive(-1) = 0.
@@ -319,9 +354,12 @@ int isAsciiDigit(int x) {
  *   Max ops: 8
  *   Rating: 2
  */
-int isPositive(int x) {
-  return !(x >> 31 | !x);
+int
+isPositive (int x)
+{
+    return !(x >> 31 | !x);
 }
+
 /*
  * isUmax - returns 1 if x is the maximum unsigned integer,
  *     and 0 otherwise
@@ -329,9 +367,12 @@ int isPositive(int x) {
  *   Max ops: 4
  *   Rating: 1
  */
-unsigned isUmax(unsigned x) {
-  return !(x + 1);
+unsigned
+isUmax (unsigned x)
+{
+    return !(x + 1);
 }
+
 /*
  * logicalNeg - implement the ! operator, using all of
  *              the legal operators except !
@@ -340,9 +381,12 @@ unsigned isUmax(unsigned x) {
  *   Max ops: 12
  *   Rating: 4
  */
-int logicalNeg(int x) {
-  return (((((x ^ (~0)) + 1) | x) >> 31) & 1) ^ 1;
+int
+logicalNeg (int x)
+{
+    return (((((x ^ (~0)) + 1) | x) >> 31) & 1) ^ 1;
 }
+
 /*
  * replaceByte(x,n,c) - Replace byte n in x with c
  *   Bytes numbered from 0 (LSB) to 3 (MSB)
@@ -352,11 +396,14 @@ int logicalNeg(int x) {
  *   Max ops: 10
  *   Rating: 3
  */
-int replaceByte(int x, int n, int c) {
-  int mask = 0xff << (n << 3);
-  c <<= (n << 3);
-  return (~mask & x) | c;
+int
+replaceByte (int x, int n, int c)
+{
+    int mask = 0xff << (n << 3);
+    c <<= (n << 3);
+    return (~mask & x) | c;
 }
+
 /*
  * unsignedSatAdd - adds two numbers but when overflow occurs,
  *          returns maximum possible value.
@@ -366,20 +413,23 @@ int replaceByte(int x, int n, int c) {
  *   Max ops: 25
  *   Rating: 4
  */
-unsigned unsignedSatAdd(unsigned x, unsigned y) {
-  unsigned sum = x + y;
-  unsigned diff = x ^ sum;
-  unsigned mask;
-  diff |= (diff >> 1);
-  diff |= (diff >> 2);
-  diff |= (diff >> 4);
-  diff |= (diff >> 8);
-  diff |= (diff >> 16);
-  diff ^= (diff >> 1);
-  mask = !!(x & diff);
-  mask = ~mask + 1;
-  return mask | (~mask & sum);
+unsigned
+unsignedSatAdd (unsigned x, unsigned y)
+{
+    unsigned sum  = x + y;
+    unsigned diff = x ^ sum;
+    unsigned mask;
+    diff |= (diff >> 1);
+    diff |= (diff >> 2);
+    diff |= (diff >> 4);
+    diff |= (diff >> 8);
+    diff |= (diff >> 16);
+    diff ^= (diff >> 1);
+    mask = !!(x & diff);
+    mask = ~mask + 1;
+    return mask | (~mask & sum);
 }
+
 /*
  * upperBits - pads n upper bits with 1's
  *  You may assume 0 <= n <= 32
@@ -388,6 +438,8 @@ unsigned unsignedSatAdd(unsigned x, unsigned y) {
  *  Max ops: 12
  *  Rating: 1
  */
-int upperBits(int n) {
-  return ((!!n) << 31) >> (n + ~0);
+int
+upperBits (int n)
+{
+    return ((!!n) << 31) >> (n + ~0);
 }

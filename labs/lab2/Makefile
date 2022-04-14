@@ -21,24 +21,24 @@ fshow: fshow.c
 ishow: ishow.c
 	$(CC) $(CFLAGS) -o ishow ishow.c
 
-grade: btest dlc format-check
+grade: btest dlc #format-check
 	./driver.pl
 
 # Forces a recompile. Used by the driver program. 
 btestexplicit:
 	$(CC) $(CFLAGS) $(LIBS) -o btest bits.c btest.c decl.c tests.c
 
-format:
-	#######################################################
-	# Process formatting according to the clang format file
-	#######################################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
+# format:
+# 	#######################################################
+# 	# Process formatting according to the clang format file
+# 	#######################################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
 
-format-check:
-	#################################
-	# Check the code is in the format
-	#################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
+# format-check:
+# 	#################################
+# 	# Check the code is in the format
+# 	#################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
 
 clean:
 	rm -f *.o btest fshow ishow *~

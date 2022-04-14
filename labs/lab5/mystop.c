@@ -12,23 +12,26 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int main(int argc, char **argv) {
-  int i, secs;
-  pid_t pid;
+int
+main (int argc, char **argv)
+{
+    int i, secs;
+    pid_t pid;
 
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %s <n>\n", argv[0]);
-    exit(0);
-  }
-  secs = atoi(argv[1]);
+    if (argc != 2)
+    {
+        fprintf (stderr, "Usage: %s <n>\n", argv[0]);
+        exit (0);
+    }
+    secs = atoi (argv[1]);
 
-  for (i = 0; i < secs; i++)
-    sleep(1);
+    for (i = 0; i < secs; i++)
+        sleep (1);
 
-  pid = getpid();
+    pid = getpid ();
 
-  if (kill(-pid, SIGTSTP) < 0)
-    fprintf(stderr, "kill (tstp) error");
+    if (kill (-pid, SIGTSTP) < 0)
+        fprintf (stderr, "kill (tstp) error");
 
-  exit(0);
+    exit (0);
 }

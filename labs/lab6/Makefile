@@ -15,9 +15,12 @@ TARGET = .*\.\(cpp\|hpp\|c\|h\)
 STYLE="{BasedOnStyle: llvm, AllowShortFunctionsOnASingleLine: None, SortIncludes: false}"
 CFORMAT = clang-format-10
 
-all: mdriver format grade
+# all: mdriver format grade
+all: mdriver grade
 
-grade: format-check mdriver
+# grade: format-check mdriver
+# 	./mdriver
+grade: mdriver
 	./mdriver
 
 mdriver: $(OBJS)
@@ -34,17 +37,17 @@ clock.o: clock.c clock.h
 handin:
 	cp mm.c $(HANDINDIR)/$(TEAM)-$(VERSION)-mm.c
 
-format:
-	#######################################################
-	# Process formatting according to the clang format file
-	#######################################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
+# format:
+# 	#######################################################
+# 	# Process formatting according to the clang format file
+# 	#######################################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
 
-format-check:
-	#################################
-	# Check the code is in the format
-	#################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
+# format-check:
+# 	#################################
+# 	# Check the code is in the format
+# 	#################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
 
 clean:
 	rm -f *~ *.o mdriver

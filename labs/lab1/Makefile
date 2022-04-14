@@ -18,22 +18,23 @@ test: list.o test.c
 test_run: test
 	@./grade.sh
 
-grade: format-check test_run
+# grade: format-check test_run
+grade: test_run
 
 list.o: list.c list.h
 	$(CC) $(CFLAGS) -c list.c
 
-format:
-	#######################################################
-	# Process formatting according to the clang format file
-	#######################################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
+# format:
+# 	#######################################################
+# 	# Process formatting according to the clang format file
+# 	#######################################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) -i && echo "Completed formatting"
 
-format-check:
-	#################################
-	# Check the code is in the format
-	#################################
-	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
+# format-check:
+# 	#################################
+# 	# Check the code is in the format
+# 	#################################
+# 	@find . -regex '$(TARGET)' | xargs $(CFORMAT) --style=$(STYLE) --dry-run --Werror -i && echo "Everything is in the format"
 
 clean:
 	###########################################################
